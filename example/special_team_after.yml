@@ -1,0 +1,8 @@
+name: "Github-Permission Developers"
+developers:
+  - ldap: "TestDitto"
+    github: "TestDitto"
+  - ldap: "Alaurant"
+    github: ""
+  - ldap: ""
+    github: "luolanlaurant"

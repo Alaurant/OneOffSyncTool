@@ -1,0 +1,24 @@
+## This is a test file for the permissions
+name: "SecurityPolicies"
+github: &GH "jenkins-rpu-gsoc-2024/SecurityPolicies"
+cd:
+  enabled: true
+issues:
+  - github: *GH
+  - jira: '17451'  # additional-identities-plugin
+    report: false
+developers:
+  - ldap: "luolanlaurant"
+    github: ""
+  - ldap: ""
+    github: "Alaurant"
+repository_team: SecurityPolicies Developers
+additional_github_teams:
+  - team: SecurityPolicies Developers
+    role: Read
+  - team: Test team
+    role: Read
+  - team: admin-devs
+    role: Maintain
+  - team: Security-devs
+    role: Write
