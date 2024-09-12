@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    directories = ["teams", "permissions"]
+    directories = ["teams", "submodules/RPU/permissions"]
 
     github_token = os.getenv("GITHUB_OAUTH")
     if not github_token:
