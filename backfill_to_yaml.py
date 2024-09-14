@@ -29,6 +29,7 @@ class SyncMain:
             team = YamlDataLoader.load_team(yaml_file_path)
             merger = TeamMerger(self.github_client)
             writer = YamlWriter()
+
             if isinstance(team, RepoYamlDefinition):
                 if team.repo_name:
                     merger.sync_repository_team(team)
@@ -41,7 +42,7 @@ class SyncMain:
 
 class YamlDataLoader:
     PERMISSIONS_PATH = Path('submodules/RPU/permissions').resolve()
-    TEAMS_PATH = Path('teams').resolve()
+    TEAMS_PATH = Path('submodules/RPU/teams').resolve()
 
     def __init__(self, file_path):
         self.resolved_path = self.resolve_file_path(file_path)
@@ -54,7 +55,7 @@ class YamlDataLoader:
 
         if file_path.startswith("submodules/RPU/permissions/"):
             return YamlDataLoader.parse_repo_team_definition(team_config)
-        elif file_path.startswith("teams/"):
+        elif file_path.startswith("submodules/RPU/teams/"):
             return YamlDataLoader.parse_teams_team_definition(team_config)
         else:
             raise ValueError("Unsupported file path: " + file_path)
@@ -202,10 +203,14 @@ class TeamMerger:
         org_name = special_team.org_name
         developers = special_team.developers
 
+        with open('all_teams.json', 'r') as file:
+            all_teams = json.load(file)
+
         try:
             org = self.github_client.get_organization(org_name)
-            team = org.get_team_by_slug(to_slug(team_name))
-            if team:
+
+            if team_name in all_teams:
+                team = org.get_team_by_slug(to_slug(team_name))
                 merge_github_developers(team, developers)
 
         except GithubException as e:
@@ -249,16 +254,19 @@ class YamlWriter:
         update_developer_entries(repo_team, data)
 
         # add repository team
-        if repo_team.team_name:
-            data['repository_team'] = repo_team.team_name
+        team_name = repo_team.team_name
+        if team_name:
+            data['repository_team'] = scalarstring.DoubleQuotedScalarString(
+                team_name)
 
         # add additional teams
         additional_teams_details = []
         if repo_team.additional_teams:
             for team in repo_team.additional_teams:
                 team_map = {
-                    "team": team.team_name,
-                    "role": team.role
+                    "team": scalarstring.DoubleQuotedScalarString(
+                        team.team_name),
+                    "role": scalarstring.DoubleQuotedScalarString(team.role)
                 }
                 additional_teams_details.append(team_map)
             data['additional_github_teams'] = additional_teams_details
