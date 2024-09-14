@@ -1,3 +1,8 @@
+## New Discussions
+For recent discussions, please check the discussion thread [here](https://github.com/jenkins-infra/repository-permissions-updater/pull/3998#discussion_r1751486114).
+
+---
+
 # OneOffSyncTool
 A tool for Jenkins RPU to do one-off back-fill from GitHub to Yaml
 
@@ -48,11 +53,6 @@ To finalize and fully deploy this tool, the following are required:
 ## Next Steps
 - **Enhanced Testing:**
   Continue extensive testing to ensure robust performance and identify any potential issues that may not have surfaced during initial trials.
-
-- **Subproject Integration:**
-  Consider using subprojects or similar approaches that allow for back-fill operations without interrupting the main Repository Permissions Updater (RPU) processes. 
-
-Your insights and contributions are invaluable as we aim to refine and deploy the OneOffSyncTool effectively. Thank you for your guidance and support.
 
 - **Explanation on Non-usage of Maven:**
   Initially, I implemented this tool using Maven, investing effort to ensure everything was set up correctly. However, despite many attempts, the `snakeyaml` dependency exhibited limitations with preserving comments and anchors in YAML files. Consequently, I had to switch to Python.
